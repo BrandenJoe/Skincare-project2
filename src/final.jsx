@@ -3,11 +3,30 @@ import Nav from "./nav.jsx";
 import { Link } from "react-router-dom";
 
 function Final() {
-  const [selectedSection, setSelectedSection] = useState(null); // Tracks the currently selected section
+  const [selectedSection, setSelectedSection] = useState("race"); 
+  const [mainPercentage, setMainPercentage] = useState(91); 
+  const [mainLabel, setMainLabel] = useState("MIDDLE EASTERN"); 
 
   const handleSelection = (section) => {
-    setSelectedSection(section); // Update the selected section
+    setSelectedSection(section);
+
+   
+    if (section === "race") {
+      setMainPercentage(91);
+      setMainLabel("MIDDLE EASTERN");
+    } else if (section === "age") {
+      setMainPercentage(40);
+      setMainLabel("25-34");
+    } else if (section === "gender") {
+      setMainPercentage(60);
+      setMainLabel("MALE");
+    }
   };
+
+  const circleRadius = 40; 
+  const circleCircumference = 2 * Math.PI * circleRadius; 
+  const strokeDashoffset =
+    circleCircumference - (mainPercentage / 100) * circleCircumference;
 
   return (
     <>
@@ -66,17 +85,18 @@ function Final() {
                   onClick={() => handleSelection("gender")}
                 >
                   <h4 className="text-sm font-medium mb-1">GENDER</h4>
-                  <p className="text-xs">FEMALE</p>
+                  <p className="text-xs">MALE</p>
                 </button>
               </div>
 
+              {/* Dynamic Percentage and Label */}
               <div className="bg-gray-100 p-4 rounded-lg flex flex-col items-center justify-center">
                 <div className="relative w-[300px] h-[300px] flex items-center justify-center">
                   <svg className="absolute w-full h-full" viewBox="0 0 100 100">
                     <circle
                       cx="50"
                       cy="50"
-                      r="40"
+                      r={circleRadius}
                       className="text-gray-200"
                       stroke="currentColor"
                       strokeWidth="6"
@@ -85,23 +105,25 @@ function Final() {
                     <circle
                       cx="50"
                       cy="50"
-                      r="40"
+                      r={circleRadius}
                       className="text-black"
                       stroke="currentColor"
                       strokeWidth="6"
                       strokeLinecap="round"
-                      strokeDasharray="251.3274"
-                      strokeDashoffset="22.01"
+                      strokeDasharray={circleCircumference}
+                      strokeDashoffset={strokeDashoffset}
                       transform="rotate(-90 50 50)"
                       fill="transparent"
                     ></circle>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-3xl md:text-5xl font-bold">91%</p>
+                    <p className="text-3xl md:text-5xl font-bold">
+                      {mainPercentage}%
+                    </p>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 text-center mb-2">
-                  MIDDLE EASTERN
+                  {mainLabel}
                 </p>
                 <p className="text-xs text-gray-600 text-center">
                   If A.I. estimate is wrong select the correct one
